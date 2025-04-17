@@ -1,4 +1,4 @@
-# ⫘⫘⫘⫘⫘⫘ Projeto em Andamento ⫘⫘⫘⫘⫘⫘
+# 🚧 Projeto em Andamento 🚧
 
 # ☕︎ Calculadora Projétil JS Puro
 
