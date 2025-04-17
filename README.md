@@ -40,7 +40,7 @@ Calculadora de Projétil JS Puro é uma aplicação web simples e estilosa que p
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/MariaCampanaP/Calculadora-Projetil
+   git clone https://github.com/MariaCampanaP/Calculadora-Projetil.git
 
 
 
