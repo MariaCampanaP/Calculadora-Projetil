@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<!-- Declaração do tipo de documento HTML5 -->
+<html lang="pt-BR">
+<!-- Tag raiz do documento com atributo de idioma (português do Brasil) -->
+<head>
+  <!-- Seção de metadados e recursos do documento -->
+  <meta charset="UTF-8">
+  <!-- Define a codificação de caracteres como UTF-8 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Configura a viewport para responsividade em dispositivos móveis -->
+  <title>Calculadora Projétil</title>
+  <!-- Título da página exibido na aba do navegador -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <!-- Importa a fonte Press Start 2P do Google Fonts -->
+  <style>
+
+    /* Início da seção de estilos CSS */
+    body {
+      margin: 0;
+      overflow-x: hidden;
+    }
+    /* Estilo para o corpo da página - remove margens e esconde overflow horizontal */
+    
+    .estrela {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: brilho 2s infinite alternate;
+      z-index: 0;
+    }
+    /* Estilo para as estrelas do fundo - posição absoluta, brancas, redondas, com animação */
+    
+    .estrela.claro {
+      background-color: rgba(255, 255, 255, 0.6);
+      animation: brilho-claro 3s infinite alternate;
+    }
+    /* Estilo alternativo para estrelas no modo claro */
+    
+    @keyframes brilho {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
+    }
+    /* Animação de brilho para estrelas (modo noturno) */
+    
+    @keyframes brilho-claro {
+      from { opacity: 0.1; }
+      to { opacity: 0.4; }
+    }
+    /* Animação de brilho para estrelas (modo claro) */
+    
+    body {
+      background: linear-gradient(135deg, rgba(5, 102, 141, 0.5), rgba(2, 195, 154, 0.5));
+      background-attachment: fixed;
+      color: #f0f3bd;
+      font-family: 'Press Start 2P', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    /* Estilo principal do corpo - gradiente de fundo, cor do texto, fonte, centralização */
+    
+    .caixa {
+      border: 2px solid #00a896;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #02c39a;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(80, 188, 218, 0.85), rgba(236, 213, 133, 0.85));
+      position: relative;
+      z-index: 1;
+      backdrop-filter: blur(3px);
+    }
+    /* Estilo da caixa principal - bordas, sombras, gradiente de fundo */
+    
+    .caixa.noturno {
+      background: rgba(15, 12, 41, 0.85);
+      border-color: #FDAF7B;
+      box-shadow: 0 0 20px rgba(253, 175, 123, 0.6);
+    }
+    /* Estilo alternativo da caixa para modo noturno */
+    
+    input, button {
+      font-family: 'Press Start 2P', monospace;
+      border-radius: 10px;
+    }
+    /* Estilo comum para inputs e botões */
+    
+    label {
+      display: block;
+      font-size: 0.6rem;
+      margin-top: 1rem;
+      color: #05668d;
+      text-shadow: 0 0 2px white;
+    }
+    /* Estilo para labels */
+    
+    .noturno label {
+      color: #f0f3bd;
+      text-shadow: 0 0 2px #FDAF7B;
+    }
+    /* Estilo de labels no modo noturno */
+    
+    input {
+      width: 100%;
+      padding: 0.3rem;
+      background: rgba(2, 128, 144, 0.7);
+      color: #f0f3bd;
+      border: 1px solid #00a896;
+    }
+    /* Estilo para campos de input */
+    
+    .noturno input {
+      background: rgba(2, 128, 144, 0.5);
+      border-color: #FDAF7B;
+    }
+    /* Estilo de inputs no modo noturno */
+    
+    button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.5rem;
+      background: #00a896;
+      color: black;
+      border: none;
+      cursor: pointer;
+      font-size: 0.6rem;
+    }
+    /* Estilo base para botões */
+    
+    button:hover {
+      background: #028090;
+      transition: background 0.3s ease;
+    }
+    /* Efeito hover para botões */
+    
+    .noturno button {
+      background: rgba(253, 175, 123, 0.8);
+      color: black;
+    }
+    /* Estilo de botões no modo noturno */
+    
+    .noturno button:hover {
+      background: rgba(64, 31, 113, 0.9);
+    }
+    /* Efeito hover para botões no modo noturno */
+    
+    .resultado {
+      margin-top: 1rem;
+      font-size: 0.6rem;
+      background: rgba(2, 128, 144, 0.7);
+      padding: 1rem;
+      border: 1px dashed #f0f3bd;
+      color: #f0f3bd;
+      border-radius: 10px;
+    }
+    /* Estilo para a área de resultados */
+    
+    .noturno .resultado {
+      background: rgba(2, 128, 144, 0.5);
+      border-color: #FDAF7B;
+    }
+    /* Estilo de resultados no modo noturno */
+    
+    canvas {
+      margin-top: 1rem;
+      border: 1px solid #f0f3bd;
+      box-shadow: 0 0 20px rgba(2, 195, 154, 0.6);
+      background-color: rgba(61, 59, 59, 0.621);
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+    /* Estilo para elementos canvas (gráficos) */
+    
+    .noturno canvas {
+      border-color: #FDAF7B;
+      box-shadow: 0 0 20px rgba(253, 175, 123, 0.6);
+    }
+    /* Estilo de canvas no modo noturno */
+    
+    .modo {
+      margin-top: 1rem;
+      font-size: 0.6rem;
+      color: #f0f3bd;
+      background: none;
+      border: 1px dashed #00a896;
+      padding: 0.4rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    /* Estilo para botões de modo */
+    
+    .noturno .modo {
+      border-color: #FDAF7B;
+    }
+    /* Estilo de botões de modo no noturno */
+    
+    h1 {
+      color: #05668d;
+      text-shadow: 0 0 5px white;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    /* Estilo para o título principal */
+    
+    .noturno h1 {
+      color: #f0f3bd;
+      text-shadow: 0 0 5px #FDAF7B;
+    }
+    /* Estilo do título no modo noturno */
+    
+    #jogoArea {
+      background: rgba(0,0,0,0.2);
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 1rem;
+      display: none;
+    }
+    /* Estilo para a área do jogo (inicialmente oculta) */
+    
+    #historico {
+      background: rgba(0,0,0,0.2);
+      padding: 0.5rem;
+      border-radius: 5px;
+      font-size: 0.5rem;
+      margin-top: 1rem;
+    }
+    /* Estilo para o histórico de cálculos */
+    
+    #animacaoContainer {
+      margin-top: 1rem;
+    }
+    /* Container para a animação */
+    
+    #animacao {
+      border: 1px solid #f0f3bd;
+      border-radius: 10px;
+      width: 100%;
+    }
+    /* Estilo para o canvas de animação */
+    
+    @media (max-width: 600px) {
+      /* Media query para telas menores que 600px */
+      .caixa {
+        padding: 1rem;
+        margin: 1rem;
+      }
+      h1 {
+        font-size: 1rem;
+      }
+      label, button, .resultado {
+        font-size: 0.5rem;
+      }
+    }
+    /* Ajustes de responsividade para dispositivos móveis */
+
+  </style>
+</head>
+<body>
+  <!-- Corpo do documento HTML -->
+
+  <script>
+    // Início do script JavaScript
+    // Criando os elementos da interface dinamicamente
+    const caixa = document.createElement('div');
+    caixa.className = 'caixa';
+    document.body.appendChild(caixa);
+
+    // HTML interno da caixa principal
+    caixa.innerHTML = `
+      <h1>Calculadora Projétil</h1>
+      <label>Tempo (s): <input type="number" id="tempo" step="any" /></label>
+      <label>Deslocamento X (m): <input type="number" id="x" step="any" /></label>
+      <label>Deslocamento Y (m): <input type="number" id="y" step="any" /></label>
+      <label>Gravidade (m/s²): <input type="number" id="g" value="9.8" step="any" /></label>
+      <label>Velocidade Animação: 
+        <input type="range" id="velocidade" min="0.5" max="5" step="0.5" value="1">
+        <span id="valorVelocidade">1x</span>
+      </label>
+      <button id="botao">Calcular</button>
+      <button id="modoDisparo" class="modo">Modo Disparo Interativo</button>
+      <button class="modo" id="alternarTema">Alternar Modo</button>
+      <div id="jogoArea">
+        <label>Ângulo: <input type="range" id="angulo" min="0" max="90" value="45"></label>
+        <label>Velocidade: <input type="range" id="velocidadeInicial" min="10" max="100" value="50"></label>
+        <button id="disparar">Disparar!</button>
+      </div>
+      <div id="saida" class="resultado"></div>
+      <canvas id="grafico" width="400" height="200"></canvas>
+    `;
+
+    // Variáveis globais
+    let temaNoturno = false; // Controla o tema atual (claro/escuro)
+    const historico = []; // Array para armazenar histórico de cálculos
+
+    // Função para criar estrelas no fundo
+    function criarEstrelas(noturno) {
+      const numEstrelas = noturno ? 150 : 80; // Mais estrelas no modo noturno
+      const body = document.body;
+      
+      // Remove estrelas existentes
+      document.querySelectorAll('.estrela').forEach(estrela => estrela.remove());
+      
+      // Cria novas estrelas
+      for (let i = 0; i < numEstrelas; i++) {
+        const estrela = document.createElement('div');
+        estrela.className = noturno ? 'estrela' : 'estrela claro';
+        
+        // Configura tamanho e posição aleatórios
+        const tamanho = noturno ? (Math.random() * 3 + 1) : (Math.random() * 2 + 0.5);
+        estrela.style.width = `${tamanho}px`;
+        estrela.style.height = `${tamanho}px`;
+        estrela.style.left = `${Math.random() * 100}vw`;
+        estrela.style.top = `${Math.random() * 100}vh`;
+        estrela.style.opacity = noturno ? Math.random() : (Math.random() * 0.3 + 0.1);
+        estrela.style.animationDelay = `${Math.random() * 3}s`;
+        
+        body.appendChild(estrela);
+      }
+    }
+
+    // Função para alternar entre temas claro e escuro
+    function alternarTema() {
+      temaNoturno = !temaNoturno; // Inverte o estado do tema
+      const body = document.body;
+      const caixaElement = document.querySelector('.caixa');
+      
+      if (temaNoturno) {
+        // Configurações para modo noturno
+        body.style.background = 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)';
+        body.style.color = '#f0f3bd';
+        caixaElement.classList.add('noturno');
+      } else {
+        // Configurações para modo claro
+        body.style.background = 'linear-gradient(135deg, rgba(5, 102, 141, 0.5), rgba(2, 195, 154, 0.5))';
+        body.style.color = '#05668d';
+        caixaElement.classList.remove('noturno');
+      }
+      
+      // Recria as estrelas com o tema apropriado
+      criarEstrelas(temaNoturno);
+    }
+
+    // Função para animar o movimento do projétil
+    function animarProjetil(vx, vy, g, duracao) {
+      const canvas = document.getElementById('animacao') || criarCanvasAnimacao();
+      const ctx = canvas.getContext('2d');
+      let tempo = 0;
+      const velocidade = parseFloat(document.getElementById('velocidade').value);
+      const dt = 0.05 / velocidade; // Intervalo de tempo ajustável
+      
+      // Remove animação existente se houver
+      const animacaoExistente = document.getElementById('animacaoContainer');
+      if (animacaoExistente) animacaoExistente.remove();
+      
+      // Cria container para a animação
+      const container = document.createElement('div');
+      container.id = 'animacaoContainer';
+      container.appendChild(canvas);
+      document.getElementById('saida').appendChild(container);
+      
+      // Função de animação recursiva
+      function animar() {
+        if (tempo > duracao) {
+          // Quando a animação termina, cria explosão
+          criarExplosao(canvas.width, canvas.height/2);
+          return;
+        }
+        
+        // Calcula posição atual
+        const x = vx * tempo;
+        const y = vy * tempo - 0.5 * g * tempo * tempo;
+        
+        // Limpa o canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = temaNoturno ? "#0f0c29" : "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Desenha trajetória
+        ctx.beginPath();
+        for (let t = 0; t <= tempo; t += dt) {
+          const px = vx * t * (canvas.width / (vx * duracao));
+          const py = canvas.height - (vy * t - 0.5 * g * t * t) * (canvas.height / (vy * vy / (2 * g)));
+          if (t === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.strokeStyle = "#f72585";
+        ctx.stroke();
+        
+        // Desenha projétil
+        ctx.beginPath();
+        const px = x * (canvas.width / (vx * duracao));
+        const py = canvas.height - y * (canvas.height / (vy * vy / (2 * g)));
+        ctx.arc(px, py, 5, 0, Math.PI * 2);
+        ctx.fillStyle = "#02c39a";
+        ctx.fill();
+        
+        // Atualiza tempo e chama próximo frame
+        tempo += dt;
+        requestAnimationFrame(animar);
+      }
+      
+      // Inicia animação
+      animar();
+    }
+
+    // Função para criar canvas de animação se não existir
+    function criarCanvasAnimacao() {
+      const canvas = document.createElement('canvas');
+      canvas.id = 'animacao';
+      canvas.width = 400;
+      canvas.height = 200;
+      return canvas;
+    }
+
+    // Função para criar efeito de explosão
+    function criarExplosao(x, y) {
+      const particulas = 30; // Número de partículas na explosão
+      
+      // Cria cada partícula
+      for (let i = 0; i < particulas; i++) {
+        const particula = document.createElement('div');
+        particula.style.position = 'absolute';
+        particula.style.width = '4px';
+        particula.style.height = '4px';
+        particula.style.backgroundColor = ['#f72585', '#FDAF7B', '#02c39a'][Math.floor(Math.random() * 3)];
+        particula.style.borderRadius = '50%';
+        particula.style.left = `${x}px`;
+        particula.style.top = `${y}px`;
+        particula.style.pointerEvents = 'none';
+        
+        // Animação da partícula
+        const animacao = particula.animate([
+          { transform: 'translate(0,0)', opacity: 1 },
+          { transform: `translate(${Math.random() * 60 - 30}px,${Math.random() * 60 - 30}px)`, opacity: 0 }
+        ], {
+          duration: 1000,
+          easing: 'cubic-bezier(0,0.2,0.8,1)'
+        });
+        
+        // Adiciona ao DOM e remove quando a animação termina
+        document.body.appendChild(particula);
+        animacao.onfinish = () => particula.remove();
+      }
+    }
+
+    // Função para adicionar cálculo ao histórico
+    function adicionarAoHistorico(v0x, v0y, tMax, xMax) {
+      historico.push({
+        v0x, v0y, tMax, xMax,
+        timestamp: new Date().toLocaleTimeString()
+      });
+      
+      // Mantém apenas os 3 últimos cálculos
+      if (historico.length > 3) historico.shift();
+      atualizarHistorico();
+    }
+
+    // Função para atualizar a exibição do histórico
+    function atualizarHistorico() {
+      const historicoDiv = document.getElementById('historico') || criarElementoHistorico();
+      historicoDiv.innerHTML = historico.map((item, i) => `
+        <div style="margin-top: ${i > 0 ? '0.5rem' : '0'};">
+          ⏱ ${item.timestamp}: v₀=(${item.v0x.toFixed(1)},${item.v0y.toFixed(1)})m/s
+        </div>
+      `).join('');
+    }
+
+    // Função para criar elemento de histórico se não existir
+    function criarElementoHistorico() {
+      const div = document.createElement('div');
+      div.id = 'historico';
+      document.getElementById('saida').parentNode.insertBefore(div, document.getElementById('saida').nextSibling);
+      return div;
+    }
+
+    // Função principal de cálculo
+    function calcular() {
+      // Obtém valores dos inputs
+      const t = parseFloat(document.getElementById("tempo").value);
+      const x = parseFloat(document.getElementById("x").value);
+      const y = parseFloat(document.getElementById("y").value);
+      const g = parseFloat(document.getElementById("g").value);
+      const saida = document.getElementById("saida");
+
+      // Validação de entrada
+      if (isNaN(t) || isNaN(x) || isNaN(y) || isNaN(g)) {
+        saida.innerHTML = "⚠ Preencha todos os campos!";
+        return;
+      }
+
+      // Cálculos de física do projétil
+      const v0x = x / t;
+      const v0y = (y + 0.5 * g * t * t) / t;
+      const tMax = v0y / g;
+      const xMax = v0x * tMax;
+      const tTotal = 2 * v0y / g;
+
+      // Exibe resultados
+      saida.innerHTML = `
+        <p>v₀ₓ = ${v0x.toFixed(2)} m/s</p>
+        <p>v₀ᵧ = ${v0y.toFixed(2)} m/s</p>
+        <p>t altura máx. = ${tMax.toFixed(2)} s</p>
+        <p>x altura máx. = ${xMax.toFixed(2)} m</p>
+        <p>Equação: y = v₀ᵧ·t - ½·g·t²</p>
+      `;
+
+      // Desenha gráfico e animação
+      desenharGrafico(v0x, v0y, g, tMax);
+      animarProjetil(v0x, v0y, g, tTotal);
+      adicionarAoHistorico(v0x, v0y, tMax, xMax);
+    }
+
+    // Função para desenhar gráfico da trajetória
+    function desenharGrafico(vx, vy, g, tMax) {
+      const canvas = document.getElementById("grafico");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Cálculos para o gráfico
+      const tTotal = 2 * vy / g;
+      const yMax = vy * vy / (2 * g);
+      const xMax = vx * tTotal;
+      const margem = 40;
+      const escalaX = (canvas.width - margem * 2) / xMax;
+      const escalaY = (canvas.height - margem * 2) / yMax;
+      const escala = Math.min(escalaX, escalaY);
+      const largura = canvas.width;
+      const altura = canvas.height;
+
+      // Fundo do gráfico
+      ctx.fillStyle = temaNoturno ? "#0f0c29" : "black";
+      ctx.fillRect(0, 0, largura, altura);
+
+      // Grade do gráfico
+      ctx.strokeStyle = temaNoturno ? "rgba(253, 175, 123, 0.1)" : "rgba(2, 195, 154, 0.1)";
+      ctx.lineWidth = 1;
+      for (let i = 0; i < largura; i += 20) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, altura);
+        ctx.stroke();
+      }
+      for (let j = 0; j < altura; j += 20) {
+        ctx.beginPath();
+        ctx.moveTo(0, j);
+        ctx.lineTo(largura, j);
+        ctx.stroke();
+      }
+
+      // Desenha a trajetória
+      ctx.strokeStyle = temaNoturno ? "#FDAF7B" : "#02c39a";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+
+      let t = 0;
+      const dt = 0.05;
+      let iniciou = false;
+      let ultimoX = 0, ultimoY = 0;
+      while (t <= tTotal) {
+        const x = vx * t;
+        const y = vy * t - 0.5 * g * t * t;
+        const px = x * escala + margem;
+        const py = altura - (y * escala + margem);
+        if (!iniciou) {
+          ctx.moveTo(px, py);
+          iniciou = true;
+        } else {
+          ctx.lineTo(px, py);
+        }
+        ultimoX = px;
+        ultimoY = py;
+        t += dt;
+      }
+      ctx.stroke();
+
+      // Marca o ponto de impacto
+      ctx.beginPath();
+      ctx.arc(ultimoX, ultimoY, 7, 0, 2 * Math.PI);
+      ctx.fillStyle = "#f72585";
+      ctx.fill();
+      ctx.font = "10px 'Press Start 2P'";
+      ctx.fillStyle = "#f72585";
+      ctx.fillText("Impacto!", ultimoX + 10, ultimoY);
+
+      // Marca a altura máxima
+      const xAlturaMax = vx * tMax;
+      const yAlturaMax = vy * tMax - 0.5 * g * tMax * tMax;
+      ctx.beginPath();
+      ctx.arc(xAlturaMax * escala + margem, altura - (yAlturaMax * escala + margem), 5, 0, 2 * Math.PI);
+      ctx.fillStyle = temaNoturno ? "#FDAF7B" : "#f0f3bd";
+      ctx.fill();
+
+      // Rótulo da altura máxima
+      ctx.font = "10px 'Press Start 2P'";
+      ctx.fillStyle = temaNoturno ? "#FDAF7B" : "#f0f3bd";
+      ctx.fillText("↑ Altura Máx.", xAlturaMax * escala + margem + 5, altura - (yAlturaMax * escala + margem) - 10);
+    }
+
+    // Event listeners (ouvintes de eventos)
+    document.getElementById("botao").addEventListener("click", calcular);
+    // Listener para o botão de cálculo
+    
+    document.getElementById("alternarTema").addEventListener("click", alternarTema);
+    // Listener para alternar tema
+    
+    document.getElementById('velocidade').addEventListener('input', (e) => {
+      document.getElementById('valorVelocidade').textContent = `${e.target.value}x`;
+    });
+    // Atualiza exibição da velocidade da animação
+    
+    document.getElementById('modoDisparo').addEventListener('click', () => {
+      const jogoArea = document.getElementById('jogoArea');
+      jogoArea.style.display = jogoArea.style.display === 'none' ? 'block' : 'none';
+    });
+    // Alterna visibilidade da área do jogo
+    
+    document.getElementById('disparar').addEventListener('click', () => {
+      // Obtém ângulo e velocidade do modo interativo
+      const angulo = parseFloat(document.getElementById('angulo').value) * Math.PI / 180;
+      const velocidade = parseFloat(document.getElementById('velocidadeInicial').value);
+      const v0x = velocidade * Math.cos(angulo);
+      const v0y = velocidade * Math.sin(angulo);
+      
+      // Preenche os campos automaticamente
+      document.getElementById('tempo').value = (2 * v0y / 9.8).toFixed(2);
+      document.getElementById('x').value = (v0x * (2 * v0y / 9.8)).toFixed(2);
+      document.getElementById('y').value = '0';
+      
+      // Executa cálculo
+      calcular();
+    });
+    // Listener para o botão de disparo no modo interativo
+
+    // Inicialização
+    alternarTema(); // Configura tema inicial
+  </script>
+</body>
+</html>
