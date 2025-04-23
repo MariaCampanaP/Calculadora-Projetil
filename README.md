@@ -1,6 +1,4 @@
-# 🚧 Projeto em Andamento 🚧
-
-# ☕︎ Calculadora Projétil JS Puro
+# ☕︎ Calculadora Projétil 
 
 Calculadora de Projétil JS Puro é uma aplicação web simples e estilosa que permite calcular a altura máxima, alcance e tempo de voo de um projétil com base na física do movimento. Tudo feito com HTML, CSS e JavaScript puro, sem nenhuma biblioteca externa. Ideal para estudantes ou curiosos por física e programação.
 
@@ -29,12 +27,10 @@ Calculadora de Projétil JS Puro é uma aplicação web simples e estilosa que p
 - Controle de velocidade da animação;
 - Interface totalmente responsiva.
 
-## ☕︎ Preview
-
-- Modo Claro
+## ☕︎ Modo Claro
 ![Captura de tela 2025-04-23 200247](https://github.com/user-attachments/assets/fe571e88-810d-4194-85fa-3a90c0ed1dd4)
 
-- Modo Noturno
+## ☕︎ Modo Noturno
 ![Captura de tela 2025-04-23 200152](https://github.com/user-attachments/assets/13ee2bae-7e16-4b00-b890-c288778ffe8c)
 
 ## ☕︎ Tecnologias Utilizadas 
