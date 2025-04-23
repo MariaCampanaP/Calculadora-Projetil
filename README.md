@@ -6,19 +6,43 @@ Calculadora de Projétil JS Puro é uma aplicação web simples e estilosa que p
 
 ## ☕︎ Funcionalidades
 
-- Interface retrô com a fonte *Pres Start 2P*;
-- Cálculo de: Altura Máxima, Alcance Horizontal, Tempo total de voo;
-- Interface amigável e visual
-- 100% JavaScript puro, sem frameworks
+- Componente da velocidade inicial (horizontal e vertical);
+- Tempo e posição de altura máxima;
+- Alcance horizontal total;
+- Equação completa da trajetória.
+
+## ☕︎ Modos de Operação
+
+- Modo Cálculo: Insira parâmetros conhecidos para obter resultados;
+- Modo Interativo: Controle ângulo e velocidade com sliders e veja em tempo real.
+
+## ☕︎ Efeitos Visuais
+
+- Gráfico dinâmico da trajetória com marcações;
+- Animação fluida do projétil;
+- Efeito de explosão no impacto;
+- Fundo estrelado com tema claro/escuro.
+
+## ☕︎ Extras Úteis
+
+- Histórico dos últimos 3 cálculos;
+- Controle de velocidade da animação;
+- Interface totalmente responsiva.
 
 ## ☕︎ Preview
 
+- Modo Claro
+![Captura de tela 2025-04-23 200247](https://github.com/user-attachments/assets/fe571e88-810d-4194-85fa-3a90c0ed1dd4)
+
+- Modo Noturno
+![Captura de tela 2025-04-23 200152](https://github.com/user-attachments/assets/13ee2bae-7e16-4b00-b890-c288778ffe8c)
+
 ## ☕︎ Tecnologias Utilizadas 
 
-- HTML5;
-- CSS3;
-- JavaScript Vanilla;
-- Google Fonts;
+- HTML5: Estrutura semântica;
+- CSS3: Flexbox e Grid para layout, Animações e transições e Media queries para responsividade;
+- JavaScript Vanilla: Canvas API para gráficos, Web Animations API e DOM manipulation dinânica;
+- Google Fonts: Fonte Press Start 2P (estilo retrô);
 
 ## ☕︎ Fórmulas Utilizadas
 
